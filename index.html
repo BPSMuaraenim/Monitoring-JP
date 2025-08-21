@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard Monitoring JP Pegawai</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo">JP</div>
+      <div>
+        <h1>Dashboard Monitoring JP Pegawai</h1>
+        <p class="subtitle">Target per Pegawai: <strong>20 JP</strong></p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div id="userBox" class="userbox" hidden>
+        <img id="userPhoto" class="avatar" alt="Foto" />
+        <span id="userName"></span>
+        <button id="logoutBtn" class="btn btn-outline">Keluar</button>
+      </div>
+      <button id="loginBtn" class="btn btn-soft">Masuk dengan Google</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- Kiri -->
+    <section class="left-col">
+      <!-- Pilih Pegawai / Mode -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Pegawai</h2>
+        </div>
+        <div class="pegawai-row">
+          <div class="field">
+            <label for="pegawaiSelect">Lihat Data Pegawai</label>
+            <select id="pegawaiSelect"></select>
+          </div>
+          <div class="field">
+            <label>Status Mode</label>
+            <input id="modeInfo" type="text" readonly />
+          </div>
+        </div>
+        <p class="hint">Login dengan Google untuk input data. Saat memilih pegawai lain, form akan terkunci (mode baca).</p>
+      </div>
+
+      <!-- KPI -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-title">Total JP</div>
+          <div id="totalJPEl" class="kpi-value">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Sisa JP ke Target</div>
+          <div id="sisaJPEl" class="kpi-value">20</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Status</div>
+          <div id="statusEl" class="kpi-badge">Belum Tercapai</div>
+        </div>
+      </div>
+
+      <!-- Form Input -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Input JP & Upload Sertifikat</h2>
+        </div>
+        <form id="entryForm" class="form-grid">
+          <div class="field">
+            <label for="nomorSertifikat">Nomor Sertifikat</label>
+            <input id="nomorSertifikat" type="text" placeholder="Contoh: 123/ABC/2025" required />
+          </div>
+          <div class="field">
+            <label for="namaDiklat">Nama Diklat</label>
+            <input id="namaDiklat" type="text" placeholder="Nama diklat / pelatihan" required />
+          </div>
+          <div class="field">
+            <label for="jumlahJP">Banyaknya JP</label>
+            <input id="jumlahJP" type="number" min="0" step="0.5" placeholder="Contoh: 8" required />
+          </div>
+          <div class="field file-field">
+            <label for="pdfFile">Upload Sertifikat (PDF)</label>
+            <input id="pdfFile" type="file" accept="application/pdf" required />
+          </div>
+          <div class="form-actions">
+            <button class="btn" type="submit">Simpan</button>
+            <button class="btn btn-soft" type="reset">Reset</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Tabel Entri -->
+      <div class="card">
+        <div class="card-header table-header">
+          <h2>Riwayat Entri</h2>
+          <input id="searchInput" type="text" class="search" placeholder="Cari diklat / nomor sertifikat..." />
+        </div>
+        <div class="table-wrap">
+          <table class="table" id="entriesTable">
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>No. Sertifikat</th>
+                <th>Nama Diklat</th>
+                <th>JP</th>
+                <th>PDF</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="entriesTbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Dashboard Semua Pegawai -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Progress Semua Pegawai</h2>
+        </div>
+        <div id="allPegawaiList" class="pegawai-progress-list"></div>
+      </div>
+    </section>
+
+    <!-- Kanan -->
+    <aside class="right-col">
+      <div class="card sticky">
+        <div class="card-header">
+          <h2>Preview Sertifikat</h2>
+        </div>
+        <div class="pdf-preview">
+          <div id="pdfEmpty" class="pdf-empty">Pilih baris di tabel untuk melihat PDF.</div>
+          <iframe id="pdfFrame" class="pdf-frame" title="Preview PDF" hidden></iframe>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- JS (ES Module) -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>
